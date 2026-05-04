@@ -9,3 +9,13 @@ def ajouter_equipement(typE, marque, modele, num_serie, emplacement, responsable
     cursor = connexion.cursor()
     cursor.execute(insert, data)
     connexion.commit()
+
+def lire_equipement():
+    read = (
+        "SELECT * FROM equipements"
+    )
+    return read
+def maj_equipement():
+    pass
+def delete_equipement():
+    pass
