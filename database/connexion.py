@@ -14,5 +14,3 @@ def connexion():
     except cpy.Error as err:
         print("Connexion échouée: {}".format(err))
         return None
-
-print(connexion())
