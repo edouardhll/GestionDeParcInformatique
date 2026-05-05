@@ -27,13 +27,16 @@ def maj_equipement(typE, marque, modele, num_serie, emplacement, responsable, da
     )
     data = (typE, marque, modele, num_serie, emplacement, responsable, date_achat)
     cursor = cnx.cursor()
-    cursor.execute(read)
+    cursor.execute(update)
     return cursor
 
 def delete_equipement():
     delete = (
          "DELETE FROM 'equipement' WHERE 'id' = %s"
     )
+    cursor = cnx.cursor()
+    cursor.execute(delete)
+    return cursor
 
 cnx = connexion()
 
