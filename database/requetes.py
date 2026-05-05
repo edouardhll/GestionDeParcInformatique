@@ -9,32 +9,35 @@ def ajouter_equipement(typE, marque, modele, num_serie, emplacement, responsable
         "VALUES (%s, %s, %s, %s, %s, %s, %s)"
     )
     data = (typE, marque, modele, num_serie, emplacement, responsable, date_achat)
-#    cnx = connexion()
     cursor = cnx.cursor()
     cursor.execute(insert, data)
     cnx.commit()
 
 def lire_equipement():
-    #créer un curseur
     read = (
         "SELECT * FROM equipements"
     )
     cursor = cnx.cursor()
     cursor.execute(read)
-    #cursor.commit()
     return cursor
 
-def maj_equipement():
-    pass
+def maj_equipement(typE, marque, modele, num_serie, emplacement, responsable, date_achat):
+    update = (
+         "UPDATE equipements SET type = %s, marque = %s, modele = %s, num_serie = %s, emplacement = %s, responsable = %s, date_achat = %s WHERE id = %s"
+    )
+    data = (typE, marque, modele, num_serie, emplacement, responsable, date_achat)
+    cursor = cnx.cursor()
+    cursor.execute(read)
+    return cursor
 
 def delete_equipement():
-    pass
-
-
+    delete = (
+         "DELETE FROM 'equipement' WHERE 'id' = %s"
+    )
 
 cnx = connexion()
 
-ajouter_equipement('clavier', 'auchan', 'clavier20', 1235  , 'ici', 'moa', date(2026, 6, 1))
+#ajouter_equipement('clavier', 'auchan', 'clavier20', 1235  , 'ici', 'moa', date(2026, 6, 1))
 
 cursor =  lire_equipement()
 for line in cursor:
