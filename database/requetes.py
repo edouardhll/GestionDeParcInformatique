@@ -21,22 +21,23 @@ def lire_equipement():
     cursor.execute(read)
     return cursor
 
-def maj_equipement(typE, marque, modele, num_serie, emplacement, responsable, date_achat):
+def maj_equipement(id_equipement, typE, marque, modele, num_serie, emplacement, responsable, date_achat):
     update = (
          "UPDATE equipements SET type = %s, marque = %s, modele = %s, num_serie = %s, emplacement = %s, responsable = %s, date_achat = %s WHERE id = %s"
     )
-    data = (typE, marque, modele, num_serie, emplacement, responsable, date_achat)
+    data = (typE, marque, modele, num_serie, emplacement, responsable, date_achat, id_equipement)
     cursor = cnx.cursor()
-    cursor.execute(update)
-    return cursor
+    cursor.execute(update, data)
+    cnx.commit()
 
-def delete_equipement():
+def delete_equipement(id_equipement):
     delete = (
-         "DELETE FROM 'equipement' WHERE 'id' = %s"
+         "DELETE FROM equipements WHERE id = %s"
     )
+    data = (id_equipement,)
     cursor = cnx.cursor()
-    cursor.execute(delete)
-    return cursor
+    cursor.execute(delete, data)
+    cnx.commit()
 
 cnx = connexion()
 
