@@ -1,4 +1,7 @@
 from connexion import connexion
+from datetime import date
+
+cnx = None
 
 def ajouter_equipement(typE, marque, modele, num_serie, emplacement, responsable, date_achat):
     insert = (
@@ -6,16 +9,33 @@ def ajouter_equipement(typE, marque, modele, num_serie, emplacement, responsable
         "VALUES (%s, %s, %s, %s, %s, %s, %s)"
     )
     data = (typE, marque, modele, num_serie, emplacement, responsable, date_achat)
-    cursor = connexion.cursor()
+#    cnx = connexion()
+    cursor = cnx.cursor()
     cursor.execute(insert, data)
-    connexion.commit()
+    cnx.commit()
 
 def lire_equipement():
+    #créer un curseur
     read = (
         "SELECT * FROM equipements"
     )
-    return read
+    cursor = cnx.cursor()
+    cursor.execute(read)
+    #cursor.commit()
+    return cursor
+
 def maj_equipement():
     pass
+
 def delete_equipement():
     pass
+
+
+
+cnx = connexion()
+
+ajouter_equipement('clavier', 'auchan', 'clavier20', 1235  , 'ici', 'moa', date(2026, 6, 1))
+
+cursor =  lire_equipement()
+for line in cursor:
+        print(line)
