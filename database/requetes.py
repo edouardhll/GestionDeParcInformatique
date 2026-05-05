@@ -42,6 +42,8 @@ def delete_equipement(id_equipement):
 cnx = connexion()
 
 #ajouter_equipement('clavier', 'auchan', 'clavier20', 1235  , 'ici', 'moa', date(2026, 6, 1))
+#maj_equipement(2, 'clavier', 'auchan', 'clavier20', '1235', 'ici', 'toa', date(2026, 6, 1))
+#delete_equipement(3)
 
 cursor =  lire_equipement()
 for line in cursor:
