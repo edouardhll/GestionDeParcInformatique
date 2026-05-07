@@ -72,3 +72,4 @@ cnx = connexion()
 #cursor =  lire_equipement()
 #for line in cursor:
 #        print(line)
+print(str(Error(errno=2006)))
