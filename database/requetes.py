@@ -1,7 +1,9 @@
 from connexion import connexion
 from datetime import date
 import mysql.connector as cpy
+from mysql.connector.errors import Error
 cnx = None
+str(Error())
 
 
 def ajouter_equipement(typE, marque, modele, num_serie, emplacement, responsable, date_achat):
