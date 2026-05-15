@@ -1,4 +1,4 @@
-from connexion import connexion
+from database.connexion import connexion
 from datetime import date
 import mysql.connector as cpy
 from mysql.connector.errors import Error
