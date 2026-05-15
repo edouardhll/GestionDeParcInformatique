@@ -30,6 +30,8 @@ def lire_equipement():
         )
         cursor = cnx.cursor()
         cursor.execute(read)
+        for line in cursor:
+                print(line)    
         return cursor
     
     except cpy.Error as err:
@@ -70,6 +72,6 @@ cnx = connexion()
 #maj_equipement(2, 'clavier', 'auchan', 'clavier20', '1235', 'ici', 'toa', date(2026, 6, 1))
 #delete_equipement(3)
 #cursor =  lire_equipement()
-#for line in cursor:
-#        print(line)
-print(str(Error(errno=2006)))
+#print(str(Error(errno=2006)))
+
+lire_equipement()
