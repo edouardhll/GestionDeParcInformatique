@@ -1,2 +1,2 @@
-from views.main_view import lancer_app
+from views.main_view import *
 lancer_app()

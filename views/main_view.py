@@ -3,6 +3,7 @@ from tkinter import *
 from views.fonction_view import github
 from database.requetes import ajouter_equipement, lire_equipement, delete_equipement, maj_equipement
 
+
 #----------Définition des polices----------#
 h1p = "Manrope"
 h2p = "Inter"
@@ -26,28 +27,33 @@ def lancer_app():
     root.config(background=bgc) #couleur de l'arrière plan de la fenêtre
 
 
-    #----------Création du cadre----------#
-    frame= Frame(root, bg=bgc, bd=1, relief=SUNKEN)
-    frame.pack(expand=YES)
-
+    #----------Création du cadre ACCUEIL ----------#
+    home= Frame(root, bg=bgc, bd=1, relief=SUNKEN)
+    home.pack(expand=YES)
 
     #----------Définition du titre----------#
-    label_title = Label(frame, text='Gestionnaire de parc informatique', font=(h1p, 30), bg=bgc, fg=h1c)
+    label_title = Label(home, text='Gestionnaire de parc informatique', font=(h1p, 30), bg=bgc, fg=h1c)
     label_title.pack(expand=YES)
 
-
-    #----------Définition du texte----------#
-    # label_texte = Label(frame, text="titi toto tata", font=(h2p, 20), bg=bgc, fg = h2c)
-    # label_texte.pack(side=BOTTOM)
-
-
     #----------Création du bouton github----------#
-    boutongithub = Button(frame, text="Consulter mon github", font=(h2p, 15), bg=bgc, fg=h2c, command=github)
+    boutongithub = Button(home, text="Consulter mon github", font=(h2p, 15), bg=bgc, fg=h2c, activebackground=bgc, command=github)
     boutongithub.pack(fill=X, pady=25,)
 
     #----------Création du bouton lire----------#
-    lire = Button(frame, text="Lire la bdd", font=(h2p, 15), bg=bgc, fg=h2c, command=lire_equipement)
-    lire.pack(fill=X, pady=25,)
+    open = Button(home, text="Lire la bdd", font=(h2p, 15), bg=bgc, fg=h2c, activebackground=bgc, command=lambda: entry(home, root))
+    open.pack(fill=X, pady=25,)
 
     #----------Exécution de la fenêtre----------#
     root.mainloop() #afficher la fenêtre
+
+def entry(home, root):
+    home.pack_forget() #on ferme la fenêtre d'accueil
+
+    bdd_page = Frame(root, bg=(bgc))
+
+    bdd = str(lire_equipement())
+    print(type(bdd))
+    print(bdd)
+    
+
+    bdd_page.pack(expand=YES)

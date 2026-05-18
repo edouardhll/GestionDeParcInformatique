@@ -73,5 +73,3 @@ cnx = connexion()
 #delete_equipement(3)
 #cursor =  lire_equipement()
 #print(str(Error(errno=2006)))
-
-lire_equipement()
