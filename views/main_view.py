@@ -1,5 +1,6 @@
-import tkinter
+import tkinter as tk
 from tkinter import *
+from tkinter import ttk
 from views.fonction_view import github
 from database.requetes import ajouter_equipement, lire_equipement, delete_equipement, maj_equipement
 
@@ -40,7 +41,7 @@ def lancer_app():
     boutongithub.pack(fill=X, pady=25,)
 
     #----------Création du bouton lire----------#
-    open = Button(home, text="Lire la bdd", font=(h2p, 15), bg=bgc, fg=h2c, activebackground=bgc, command=lambda: entry(home, root))
+    open = Button(home, text="Lire la bdd", font=(h2p, 15), bg=bgc, fg=h2c, activebackground=bgc, command=lambda: entry(home, root))#appelle la fonction pour la nouvelle fenêtre, on importe home et root pour pouvoir les reconnaitre
     open.pack(fill=X, pady=25,)
 
     #----------Exécution de la fenêtre----------#
@@ -51,9 +52,30 @@ def entry(home, root):
 
     bdd_page = Frame(root, bg=(bgc))
 
-    bdd = str(lire_equipement())
+    bdd = dict(lire_equipement())
     print(type(bdd))
     print(bdd)
-    
+
+    table = ttk.Treeview(root, columns = ('ID', 'type', 'marque', 'modele', 'num_serie', 'emplacement', 'responsable', 'date_achat'), show= 'headings')
+    table.heading('ID', text='ID')
+    table.heading('type', text='type')
+    table.heading('marque', text='marque')
+    table.heading('modele', text='modèle')
+    table.heading('num_serie', text='numéro de série')
+    table.heading('emplacement', text='emplacement')
+    table.heading('responsable', text='responsable')
+    table.heading('date_achat', text='date d achat')
+
+    table.column('ID', width=50)
+    table.column('type', width=150)
+    table.column('marque', width=150)
+    table.column('modele', width=150)
+    table.column('num_serie', width=150)
+    table.column('emplacement', width=150)
+    table.column('responsable', width=150)
+    table.column('date_achat', width=150)
+
+    table.pack(expand=YES, padx=20)
 
     bdd_page.pack(expand=YES)
+
