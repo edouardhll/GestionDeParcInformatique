@@ -30,9 +30,9 @@ def lire_equipement():
         )
         cursor = cnx.cursor()
         cursor.execute(read)
-        for line in cursor:
-                print(line)    
-        return cursor
+        # for line in cursor:
+        #         print(line)    
+        return cursor.fetchall() #routourne sous forme de tuple plutôt que sous forme de curseur
     
     except cpy.Error as err:
             print("La lecture a échoué: {}".format(err))
