@@ -111,6 +111,9 @@ def add_tk(bdd_page, root):
     #----------Création du cadre principal----------#
     frame = Frame(root, bg=(bgc))
 
+    #----------Création du cadre bottom----------#
+    bottom = Frame(frame, bg = (bgc))
+    bottom.pack(side=BOTTOM)
     #----------Création du cadre left----------#
     left = Frame(frame, bg = (bgc))
     left.pack(side=LEFT)
@@ -118,50 +121,55 @@ def add_tk(bdd_page, root):
     right = Frame(frame, bg = (bgc))
     right.pack(side=RIGHT)
 
+
     #Tous les noms à gauche
     label_title = Label(left, text='Matériel :', font=(h2p, 15), bg=bgc, fg=h2c)
-    label_title.pack(pady=25, padx=5)
+    label_title.pack(pady=5, padx=5,)
 
     label_title = Label(left, text='Marque :', font=(h2p, 15), bg=bgc, fg=h2c)
-    label_title.pack(pady=25, padx=5)
+    label_title.pack(pady=5, padx=5)
 
     label_title = Label(left, text='Modèle :', font=(h2p, 15), bg=bgc, fg=h2c)
-    label_title.pack(pady=25, padx=5)
+    label_title.pack(pady=5, padx=5)
 
     label_title = Label(left, text='Numéro de série :', font=(h2p, 15), bg=bgc, fg=h2c)
-    label_title.pack(pady=25, padx=5)
+    label_title.pack(pady=5, padx=5)
 
     label_title = Label(left, text='Emplacement :', font=(h2p, 15), bg=bgc, fg=h2c)
-    label_title.pack(pady=25, padx=5)
+    label_title.pack(pady=5, padx=5)
 
     label_title = Label(left, text='Responsable :', font=(h2p, 15), bg=bgc, fg=h2c)
-    label_title.pack(pady=25, padx=5)
+    label_title.pack(pady=5, padx=5)
 
     label_title = Label(left, text='Date achat :', font=(h2p, 15), bg=bgc, fg=h2c)
-    label_title.pack(pady=25, padx=5)
+    label_title.pack(pady=5, padx=5)
 
 
     #Tous les inputs à droite
     input_type = Entry(right, font=(h2p, 15), bg=bgc, fg=h2c, width=20)
-    input_type.pack(pady=25, padx=5)
+    input_type.pack(pady=5, padx=5)
 
     input_marque = Entry(right, font=(h2p, 15), bg=bgc, fg=h2c, width=20)
-    input_marque.pack(pady=25, padx=5)
+    input_marque.pack(pady=5, padx=5)
 
     input_modele = Entry(right, font=(h2p, 15), bg=bgc, fg=h2c, width=20)
-    input_modele.pack(pady=25, padx=5)
+    input_modele.pack(pady=5, padx=5)
 
     input_num_serie = Entry(right, font=(h2p, 15), bg=bgc, fg=h2c, width=20)
-    input_num_serie.pack(pady=25, padx=5)
+    input_num_serie.pack(pady=5, padx=5)
 
     input_emplacement = Entry(right, font=(h2p, 15), bg=bgc, fg=h2c, width=20)
-    input_emplacement.pack(pady=25, padx=5)
+    input_emplacement.pack(pady=5, padx=5)
 
     input_responsable = Entry(right, font=(h2p, 15), bg=bgc, fg=h2c, width=20)
-    input_responsable.pack(pady=25, padx=5)
+    input_responsable.pack(pady=5, padx=5)
 
     input_date_achat = Entry(right, font=(h2p, 15), bg=bgc, fg=h2c, width=20)
-    input_date_achat.pack(pady=25, padx=5)
+    input_date_achat.pack(pady=5, padx=5)
 
+
+
+    validation_button = Button(bottom, text="Valider le nouvel équipement", font=(h2p, 15), bg=bgc, fg=h2c, activebackground=bgc)
+    validation_button.pack(side=BOTTOM, pady=25, padx=25)
 
     frame.pack(expand=YES)
