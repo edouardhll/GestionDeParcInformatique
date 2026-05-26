@@ -2,6 +2,7 @@ from database.connexion import connexion
 from datetime import date
 import mysql.connector as cpy
 from mysql.connector.errors import Error
+from tkinter import messagebox
 cnx = None
 str(Error())
 
@@ -19,7 +20,7 @@ def ajouter_equipement(typE, marque, modele, num_serie, emplacement, responsable
         cnx.commit()
 
     except cpy.Error as err:
-            print("L'ajout a échoué: {}".format(err))
+            messagebox.showerror("Error", str(err))
 
 
 def lire_equipement():

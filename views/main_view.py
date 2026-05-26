@@ -3,7 +3,8 @@ from tkinter import *
 from tkinter import ttk
 from views.fonction_view import github
 from database.requetes import ajouter_equipement, lire_equipement, delete_equipement, maj_equipement
-
+from datetime import datetime
+from tkinter import messagebox
 
 #----------Définition des polices----------#
 h1p = "Manrope"
@@ -91,7 +92,7 @@ def entry(home, root):
     button_frame.pack(side=BOTTOM)
 
     #----------Création du bouton AJOUTER----------#
-    add_button = Button(button_frame, text="Ajouter un nouvel équipement", font=(h2p, 15), bg=bgc, fg=h2c, activebackground=bgc, command=lambda: add_tk(bdd_page, root))#appelle la fonction pour la nouvelle fenêtre, on importe home et root pour pouvoir les reconnaitre
+    add_button = Button(button_frame, text="Ajouter un nouvel équipement", font=(h2p, 15), bg=bgc, fg=h2c, activebackground=bgc, command=lambda: add_tk(bdd_page, root, home))#appelle la fonction pour la nouvelle fenêtre, on importe home et root pour pouvoir les reconnaitre
     add_button.pack(side = LEFT, pady=25, padx=25)
     #----------Création du bouton MODIFIER----------#
     edit_button = Button(button_frame, text="Modifier un équipement", font=(h2p, 15), bg=bgc, fg=h2c, activebackground=bgc)#appelle la fonction pour la nouvelle fenêtre, on importe home et root pour pouvoir les reconnaitre
@@ -104,7 +105,7 @@ def entry(home, root):
 
 #----------Fonction de la fenêtre pour AJOUTER----------#
 
-def add_tk(bdd_page, root):
+def add_tk(bdd_page, root, home):
 
     bdd_page.pack_forget() #on ferme la fenêtre précédente
 
@@ -167,9 +168,18 @@ def add_tk(bdd_page, root):
     input_date_achat = Entry(right, font=(h2p, 15), bg=bgc, fg=h2c, width=20)
     input_date_achat.pack(pady=5, padx=5)
 
+    def input_data():
+
+        try:
+            data = input_type.get(), input_marque.get(), input_modele.get(), input_num_serie.get(), input_emplacement.get(), input_responsable.get(), datetime.strptime(input_date_achat.get(), "%d/%m/%Y")
+            ajouter_equipement(*data) #ajouter_equipement() attend 7 entrées, mettre une étoile permet de lui renvoyer la liste en séparant les éléments qui la contiennent.
+            frame.pack_forget()
+            entry(home, root)
+        except Exception as err:
+            messagebox.showerror("Error", str(err))
 
 
-    validation_button = Button(bottom, text="Valider le nouvel équipement", font=(h2p, 15), bg=bgc, fg=h2c, activebackground=bgc)
+    validation_button = Button(bottom, text="Valider le nouvel équipement", font=(h2p, 15), bg=bgc, fg=h2c, activebackground=bgc, command=input_data)
     validation_button.pack(side=BOTTOM, pady=25, padx=25)
 
     frame.pack(expand=YES)
