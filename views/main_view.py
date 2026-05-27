@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import *
 from tkinter import ttk
 from views.fonction_view import github
-from database.requetes import ajouter_equipement, lire_equipement, delete_equipement, maj_equipement
+from database.requetes import ajouter_equipement, lire_equipement, delete_equipement, maj_equipement, error_name
 from datetime import datetime
 from tkinter import messagebox
 
@@ -197,6 +197,15 @@ def add_tk(bdd_page, root, home):
         except Exception as err:
             messagebox.showerror("Error", str(err))
 
+    def back():
+        try:
+            frame.pack_forget()
+            entry(home, root)
+        except Exception as err:
+            messagebox.showerror("Error", str(err))
+
+    back_button = Button(bottom, text="Retour", font=(h2p, 15), bg=bgc, fg=h2c, activebackground=bgc, command=back)
+    back_button.pack(side=BOTTOM, pady=25, padx=25)
 
     validation_button = Button(bottom, text="Valider le nouvel équipement", font=(h2p, 15), bg=bgc, fg=h2c, activebackground=bgc, command=input_data)
     validation_button.pack(side=BOTTOM, pady=25, padx=25)
@@ -212,93 +221,109 @@ def add_tk(bdd_page, root, home):
 
 def edit_tk(bdd_page, root, home, table):
 
-    bdd_page.pack_forget() #on ferme la fenêtre précédente
+    try:
+        ligne = table.selection()
+        value = table.item(ligne, 'values')
+        id = value[0]
 
-    ligne = table.selection()
-    value = table.item(ligne, 'values')
-    id = value[0]
-
-
-
+        bdd_page.pack_forget() #on ferme la fenêtre précédente
 
 
-    #----------Création du cadre principal----------#
-    frame = Frame(root, bg=(bgc))
-
-    #----------Création du cadre bottom----------#
-    bottom = Frame(frame, bg = (bgc))
-    bottom.pack(side=BOTTOM)
-    #----------Création du cadre left----------#
-    left = Frame(frame, bg = (bgc))
-    left.pack(side=LEFT)
-    #----------Création du cadre right----------#
-    right = Frame(frame, bg = (bgc))
-    right.pack(side=RIGHT)
 
 
-    #Tous les noms à gauche
-    label_title = Label(left, text='Matériel :', font=(h2p, 15), bg=bgc, fg=h2c)
-    label_title.pack(pady=5, padx=5,)
+        #----------Création du cadre principal----------#
+        frame = Frame(root, bg=(bgc))
 
-    label_title = Label(left, text='Marque :', font=(h2p, 15), bg=bgc, fg=h2c)
-    label_title.pack(pady=5, padx=5)
-
-    label_title = Label(left, text='Modèle :', font=(h2p, 15), bg=bgc, fg=h2c)
-    label_title.pack(pady=5, padx=5)
-
-    label_title = Label(left, text='Numéro de série :', font=(h2p, 15), bg=bgc, fg=h2c)
-    label_title.pack(pady=5, padx=5)
-
-    label_title = Label(left, text='Emplacement :', font=(h2p, 15), bg=bgc, fg=h2c)
-    label_title.pack(pady=5, padx=5)
-
-    label_title = Label(left, text='Responsable :', font=(h2p, 15), bg=bgc, fg=h2c)
-    label_title.pack(pady=5, padx=5)
-
-    label_title = Label(left, text='Date achat :', font=(h2p, 15), bg=bgc, fg=h2c)
-    label_title.pack(pady=5, padx=5)
+        #----------Création du cadre bottom----------#
+        bottom = Frame(frame, bg = (bgc))
+        bottom.pack(side=BOTTOM)
+        #----------Création du cadre left----------#
+        left = Frame(frame, bg = (bgc))
+        left.pack(side=LEFT)
+        #----------Création du cadre right----------#
+        right = Frame(frame, bg = (bgc))
+        right.pack(side=RIGHT)
 
 
-    #Tous les inputs à droite
-    input_type = Entry(right, font=(h2p, 15), bg=bgc, fg=h2c, width=20)
-    input_type.insert(0, value[1])
-    input_type.pack(pady=5, padx=5)
+        #Tous les noms à gauche
+        label_title = Label(left, text='Matériel :', font=(h2p, 15), bg=bgc, fg=h2c)
+        label_title.pack(pady=5, padx=5,)
 
-    input_marque = Entry(right, font=(h2p, 15), bg=bgc, fg=h2c, width=20)
-    input_marque.insert(0, value[2])
-    input_marque.pack(pady=5, padx=5)
+        label_title = Label(left, text='Marque :', font=(h2p, 15), bg=bgc, fg=h2c)
+        label_title.pack(pady=5, padx=5)
 
-    input_modele = Entry(right, font=(h2p, 15), bg=bgc, fg=h2c, width=20)
-    input_modele.insert(0, value[3])
-    input_modele.pack(pady=5, padx=5)
+        label_title = Label(left, text='Modèle :', font=(h2p, 15), bg=bgc, fg=h2c)
+        label_title.pack(pady=5, padx=5)
 
-    input_num_serie = Entry(right, font=(h2p, 15), bg=bgc, fg=h2c, width=20)
-    input_num_serie.insert(0, value[4])
-    input_num_serie.pack(pady=5, padx=5)
+        label_title = Label(left, text='Numéro de série :', font=(h2p, 15), bg=bgc, fg=h2c)
+        label_title.pack(pady=5, padx=5)
 
-    input_emplacement = Entry(right, font=(h2p, 15), bg=bgc, fg=h2c, width=20)
-    input_emplacement.insert(0, value[5])
-    input_emplacement.pack(pady=5, padx=5)
+        label_title = Label(left, text='Emplacement :', font=(h2p, 15), bg=bgc, fg=h2c)
+        label_title.pack(pady=5, padx=5)
 
-    input_responsable = Entry(right, font=(h2p, 15), bg=bgc, fg=h2c, width=20)
-    input_responsable.insert(0, value[6])
-    input_responsable.pack(pady=5, padx=5)
+        label_title = Label(left, text='Responsable :', font=(h2p, 15), bg=bgc, fg=h2c)
+        label_title.pack(pady=5, padx=5)
 
-    input_date_achat = Entry(right, font=(h2p, 15), bg=bgc, fg=h2c, width=20)
-    input_date_achat.insert(0, value[7])
-    input_date_achat.pack(pady=5, padx=5)
+        label_title = Label(left, text='Date achat :', font=(h2p, 15), bg=bgc, fg=h2c)
+        label_title.pack(pady=5, padx=5)
 
-    def input_data():
 
-        try:
-            data = input_type.get(), input_marque.get(), input_modele.get(), input_num_serie.get(), input_emplacement.get(), input_responsable.get(), datetime.strptime(input_date_achat.get(), "%d/%m/%Y")
-            maj_equipement(id, *data) #ajouter_equipement() attend 7 entrées, mettre une étoile permet de lui renvoyer la liste en séparant les éléments qui la contiennent.
-            frame.pack_forget()
-            entry(home, root)
-        except Exception as err:
-            messagebox.showerror("Error", str(err))
+        #Tous les inputs à droite
+        input_type = Entry(right, font=(h2p, 15), bg=bgc, fg=h2c, width=20)
+        input_type.insert(0, value[1]) #0 insert au début du champ
+        input_type.pack(pady=5, padx=5)
 
-    validation_button = Button(bottom, text="Valider Les modifications", font=(h2p, 15), bg=bgc, fg=h2c, activebackground=bgc, command=input_data)
-    validation_button.pack(side=BOTTOM, pady=25, padx=25)
+        input_marque = Entry(right, font=(h2p, 15), bg=bgc, fg=h2c, width=20)
+        input_marque.insert(0, value[2])
+        input_marque.pack(pady=5, padx=5)
 
-    frame.pack(expand=YES)
+        input_modele = Entry(right, font=(h2p, 15), bg=bgc, fg=h2c, width=20)
+        input_modele.insert(0, value[3])
+        input_modele.pack(pady=5, padx=5)
+
+        input_num_serie = Entry(right, font=(h2p, 15), bg=bgc, fg=h2c, width=20)
+        input_num_serie.insert(0, value[4])
+        input_num_serie.pack(pady=5, padx=5)
+
+        input_emplacement = Entry(right, font=(h2p, 15), bg=bgc, fg=h2c, width=20)
+        input_emplacement.insert(0, value[5])
+        input_emplacement.pack(pady=5, padx=5)
+
+        input_responsable = Entry(right, font=(h2p, 15), bg=bgc, fg=h2c, width=20)
+        input_responsable.insert(0, value[6])
+        input_responsable.pack(pady=5, padx=5)
+
+        input_date_achat = Entry(right, font=(h2p, 15), bg=bgc, fg=h2c, width=20)
+        date = datetime.strptime(value[7], "%Y-%m-%d").strftime("%d/%m/%Y")
+        input_date_achat.insert(0, date)
+        input_date_achat.pack(pady=5, padx=5)
+
+        def input_data():
+
+            try:
+                data = input_type.get(), input_marque.get(), input_modele.get(), input_num_serie.get(), input_emplacement.get(), input_responsable.get(), datetime.strptime(input_date_achat.get(), "%d/%m/%Y")
+                maj_equipement(id, *data) #ajouter_equipement() attend 7 entrées, mettre une étoile permet de lui renvoyer la liste en séparant les éléments qui la contiennent.
+                frame.pack_forget()
+                entry(home, root)
+            except Exception as err:
+                messagebox.showerror("Error", str(err))
+
+        def back():
+            try:
+                frame.pack_forget()
+                entry(home, root)
+            except Exception as err:
+                messagebox.showerror("Error", str(err))
+
+
+
+        back_button = Button(bottom, text="Retour", font=(h2p, 15), bg=bgc, fg=h2c, activebackground=bgc, command=back)
+        back_button.pack(side=BOTTOM, pady=25, padx=25)
+
+        validation_button = Button(bottom, text="Valider Les modifications", font=(h2p, 15), bg=bgc, fg=h2c, activebackground=bgc, command=input_data)
+        validation_button.pack(side=BOTTOM, pady=25, padx=25)
+
+        frame.pack(expand=YES)
+
+    except Exception as err:
+            messagebox.showerror("Erreur : ", error_name(err))

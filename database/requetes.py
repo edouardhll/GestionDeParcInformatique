@@ -67,6 +67,19 @@ def delete_equipement(id_equipement):
     except cpy.Error as err:
             print("La suppression a échoué: {}".format(err))
 
+def error_name(err):
+    if err.errno == 1062:
+        message = "Ce numéro de série existe déjà."
+    elif err.errno == 1048:
+        message = "Merci de remplir tous les champs."
+    elif err.errno == 2003:
+        message = "Impossible de se connecter au serveur."
+    elif err.errno == 1452:
+        message = "Erreur avec la clé étrangère."
+    else:
+        message = ("La mise à jour a échoué: {}".format(err))
+    return message
+
 cnx = connexion()
 
 #ajouter_equipement('clavier', 'auchan', 'clavier20', 1235  , 'ici', 'moa', date(2026, 6, 1))
