@@ -78,7 +78,7 @@ def error_name(err):
         message = "Erreur avec la clé étrangère."
     else:
         message = ("La mise à jour a échoué: {}".format(err))
-    return message
+    return str(message)
 
 cnx = connexion()
 

@@ -117,7 +117,10 @@ def entry(home, root):
             bdd_page.pack_forget()
             entry(home, root)
         except Exception as err:
-            messagebox.showerror("Error", str(err))
+            if ligne != 1:
+                messagebox.showerror("Erreur", "Sélectionnez une ligne unique à supprimer")
+            else:
+                messagebox.showerror("Erreur", error_name(err))
 
     #on a fini on pack le tout
     bdd_page.pack(expand=YES)
@@ -195,14 +198,14 @@ def add_tk(bdd_page, root, home):
             frame.pack_forget()
             entry(home, root)
         except Exception as err:
-            messagebox.showerror("Error", str(err))
+            messagebox.showerror("Erreur", error_name(err))
 
     def back():
         try:
             frame.pack_forget()
             entry(home, root)
         except Exception as err:
-            messagebox.showerror("Error", str(err))
+            messagebox.showerror("Erreur", error_name(err))
 
     back_button = Button(bottom, text="Retour", font=(h2p, 15), bg=bgc, fg=h2c, activebackground=bgc, command=back)
     back_button.pack(side=BOTTOM, pady=25, padx=25)
@@ -305,15 +308,17 @@ def edit_tk(bdd_page, root, home, table):
                 maj_equipement(id, *data) #ajouter_equipement() attend 7 entrées, mettre une étoile permet de lui renvoyer la liste en séparant les éléments qui la contiennent.
                 frame.pack_forget()
                 entry(home, root)
+            except ValueError:
+                messagebox.showerror("Erreur", "Format date attendu : DD/MM/YYYY")
             except Exception as err:
-                messagebox.showerror("Error", str(err))
+                messagebox.showerror("Erreur", error_name(err))
 
         def back():
             try:
                 frame.pack_forget()
                 entry(home, root)
             except Exception as err:
-                messagebox.showerror("Error", str(err))
+                messagebox.showerror("Erreur", error_name(err))
 
 
 
@@ -326,4 +331,9 @@ def edit_tk(bdd_page, root, home, table):
         frame.pack(expand=YES)
 
     except Exception as err:
+        if not ligne:
+            messagebox.showerror("Erreur", "Sélectionnez une ligne")
+        elif len(ligne) !=1:
+            messagebox.showerror("Erreur", "Sélectionner une seule ligne")
+        else:
             messagebox.showerror("Erreur : ", error_name(err))
