@@ -5,7 +5,9 @@ from views.fonction_view import github
 from database.requetes import ajouter_equipement, lire_equipement, delete_equipement, maj_equipement, error_name
 from datetime import datetime
 from tkinter import messagebox
-
+import csv
+import subprocess
+import os
 
 
 
@@ -97,6 +99,10 @@ def entry(home, root):
     #----------Création d'un cadre pour les boutons----------#
     button_frame = Frame(bdd_page, bg=(bgc))
     button_frame.pack(side=BOTTOM)
+    #cadre pour les boutons liés au csv
+    csv_frame = Frame(bdd_page, bg='white', relief=SUNKEN, bd=1)
+    csv_frame.pack(side=TOP, padx=25, pady=25)
+    
 
     #----------Création du bouton AJOUTER----------#
     add_button = Button(button_frame, text="Ajouter un nouvel équipement", font=(h2p, 15), bg=bgc, fg=h2c, activebackground=bgc, command=lambda: add_tk(bdd_page, root, home,))#appelle la fonction pour la nouvelle fenêtre, on importe home et root pour pouvoir les reconnaitre
@@ -107,6 +113,13 @@ def entry(home, root):
     #----------Création du bouton EFFACER----------#
     delete_button = Button(button_frame, text="Supprimer un équipement", font=(h2p, 15), bg=bgc, fg=h2c, activebackground=bgc, command=lambda: delete_tk(home))#appelle la fonction pour la nouvelle fenêtre, on importe home et root pour pouvoir les reconnaitre
     delete_button.pack(side = RIGHT, pady=25, padx=25)
+
+    #bouton pour exporter un csv
+    export_button = Button(csv_frame, text='Exporter', font=(h2p, 15), bg=bgc, fg=h2c, activebackground=bgc, command=genererCSV)
+    export_button.pack(side=LEFT, pady=25, padx=25)
+    open_button = Button(csv_frame, text='Ouvrir le dossier', font=(h2p, 15), bg=bgc, fg=h2c, activebackground=bgc, command=openCSV)
+    open_button.pack(side=RIGHT, pady=25, padx=25)
+
     #----------Création de la fonction pour EFFACER----------#
     def delete_tk(home):
         try:
@@ -146,7 +159,7 @@ def add_tk(bdd_page, root, home):
 
 
     #Tous les noms à gauche
-    label_title = Label(left, text='Matériel :', font=(h2p, 15), bg=bgc, fg=h2c)
+    label_title = Label(left, text='Type :', font=(h2p, 15), bg=bgc, fg=h2c)
     label_title.pack(pady=5, padx=5,)
 
     label_title = Label(left, text='Marque :', font=(h2p, 15), bg=bgc, fg=h2c)
@@ -169,37 +182,51 @@ def add_tk(bdd_page, root, home):
 
 
     #Tous les inputs à droite
-    input_type = Entry(right, font=(h2p, 15), bg=bgc, fg=h2c, width=20)
+    # input_type = Entry(right, font=(h2p, 15), bg=bgc, fg=h2c, width=20)
+    # input_type.pack(pady=5, padx=5)
+    input_type_liste = ["Poste de travail", "PC portable", "Écran", "Imprimante", "Portable", "Serveur", "NAS", "Box internet", "Téléphone fixe"]
+    input_type = ttk.Combobox(right,font=(h2p, 15), width=20, values=input_type_liste, state="readonly")
+    input_type.insert(0, "Poste de travail")
     input_type.pack(pady=5, padx=5)
 
     input_marque = Entry(right, font=(h2p, 15), bg=bgc, fg=h2c, width=20)
+    input_marque.insert(0, "Asus")
     input_marque.pack(pady=5, padx=5)
 
     input_modele = Entry(right, font=(h2p, 15), bg=bgc, fg=h2c, width=20)
+    input_modele.insert(0, "A17")
     input_modele.pack(pady=5, padx=5)
 
     input_num_serie = Entry(right, font=(h2p, 15), bg=bgc, fg=h2c, width=20)
+    input_num_serie.insert(0, "A123456")
     input_num_serie.pack(pady=5, padx=5)
 
     input_emplacement = Entry(right, font=(h2p, 15), bg=bgc, fg=h2c, width=20)
+    input_emplacement.insert(0, "Salle 01")
     input_emplacement.pack(pady=5, padx=5)
 
     input_responsable = Entry(right, font=(h2p, 15), bg=bgc, fg=h2c, width=20)
+    input_responsable.insert(0, "M Dupont")
     input_responsable.pack(pady=5, padx=5)
 
     input_date_achat = Entry(right, font=(h2p, 15), bg=bgc, fg=h2c, width=20)
+    input_date_achat.insert(0, "29/05/2026")
     input_date_achat.pack(pady=5, padx=5)
 
     def input_data():
 
         try:
-            data = input_type.get(), input_marque.get(), input_modele.get(), input_num_serie.get(), input_emplacement.get(), input_responsable.get(), datetime.strptime(input_date_achat.get(), "%d/%m/%Y")
-            ajouter_equipement(*data) #ajouter_equipement() attend 7 entrées, mettre une étoile permet de lui renvoyer la liste en séparant les éléments qui la contiennent.
-            frame.pack_forget()
-            entry(home, root)
+            if input_type.get() != "":
+                data = input_type.get(), input_marque.get(), input_modele.get(), input_num_serie.get(), input_emplacement.get(), input_responsable.get(), datetime.strptime(input_date_achat.get(), "%d/%m/%Y")
+                ajouter_equipement(*data) #ajouter_equipement() attend 7 entrées, mettre une étoile permet de lui renvoyer la liste en séparant les éléments qui la contiennent.
+                frame.pack_forget()
+                entry(home, root)
+            else:
+                messagebox.showerror("Erreur", "Le champ type doit être remplis")
         except Exception as err:
             messagebox.showerror("Erreur", error_name(err))
-
+        except ValueError:
+            messagebox.showerror("Erreur", "Valeur incorrect")
     def back():
         try:
             frame.pack_forget()
@@ -207,11 +234,23 @@ def add_tk(bdd_page, root, home):
         except Exception as err:
             messagebox.showerror("Erreur", error_name(err))
 
+    def validate_date(event=None):
+        date_text = input_date_achat.get()
+
+        try:
+            datetime.strptime(date_text,"%d/%m%Y")
+            validation_button.config(state=NORMAL)
+        except ValueError:
+            validation_button.config()
+
     back_button = Button(bottom, text="Retour", font=(h2p, 15), bg=bgc, fg=h2c, activebackground=bgc, command=back)
     back_button.pack(side=BOTTOM, pady=25, padx=25)
 
     validation_button = Button(bottom, text="Valider le nouvel équipement", font=(h2p, 15), bg=bgc, fg=h2c, activebackground=bgc, command=input_data)
     validation_button.pack(side=BOTTOM, pady=25, padx=25)
+
+    input_date_achat.bind("<KeyRelease>", validate_date)
+    validate_date
 
     frame.pack(expand=YES)
 
@@ -272,9 +311,14 @@ def edit_tk(bdd_page, root, home, table):
 
 
         #Tous les inputs à droite
-        input_type = Entry(right, font=(h2p, 15), bg=bgc, fg=h2c, width=20)
-        input_type.insert(0, value[1]) #0 insert au début du champ
+
+        input_type_liste = ["Poste de travail", "PC portable", "Écran", "Imprimante", "Portable", "Serveur", "NAS", "Box internet", "Téléphone fixe"]
+        input_type = ttk.Combobox(right,font=(h2p, 15), width=20, values=input_type_liste)
+        input_type.insert(0, value[1])
         input_type.pack(pady=5, padx=5)
+        # input_type = Entry(right, font=(h2p, 15), bg=bgc, fg=h2c, width=20)
+        # input_type.insert(0, value[1]) #0 insert au début du champ
+        # input_type.pack(pady=5, padx=5)
 
         input_marque = Entry(right, font=(h2p, 15), bg=bgc, fg=h2c, width=20)
         input_marque.insert(0, value[2])
@@ -337,3 +381,16 @@ def edit_tk(bdd_page, root, home, table):
             messagebox.showerror("Erreur", "Sélectionner une seule ligne")
         else:
             messagebox.showerror("Erreur : ", error_name(err))
+
+def genererCSV():
+    name = str("export_" + datetime.now().strftime("%Y-%m-%d-%H-%M-%S") +".csv")
+    with open(f'./exports/{name}', 'w', newline='', encoding='utf-8') as csvfile:
+        data = lire_equipement()
+        spamwriter = csv.writer(csvfile, delimiter=";", quotechar="|", quoting=csv.QUOTE_MINIMAL)
+        for i in data:
+            spamwriter.writerow(i)
+    print("document généré : ", name)
+
+def openCSV():
+    path = os.path.abspath('./exports')
+    subprocess.Popen(f'explorer "{path}"')

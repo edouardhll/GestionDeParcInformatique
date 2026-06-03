@@ -11,6 +11,8 @@ Gérer l'erreur de quand on sélectionne plusieurs lignes.
 -import export en json
 -bdd factice
 -faire l'installeur
+-faire la listebox https://tkdocs.com/tutorial/morewidgets.html#combobox
+-changer l'état du bouton en fonction de si les champs sont tous remplis ou pas.
 
 à revoir pour le support:
 -mettre à jour le portfolio
