@@ -1,21 +1,14 @@
 from views.main_view import *
 lancer_app()
 """
-à revoir avec guillaume:
-
--problème de la gestion d'erreur
-Gérer l'erreur de quand on sélectionne plusieurs lignes.
-
--ce qui est attendu dans la doc
+à faire :
 -gestion de l'historique
+-export csv
 -import export en json
--bdd factice
+-revoir l'interface:
+    -tableau prend toute la fenêtre
+    -barre en haut pour faciliter l'usage
+    -bouton à droite direct dans le tableau
 -faire l'installeur
--faire la listebox https://tkdocs.com/tutorial/morewidgets.html#combobox
 -changer l'état du bouton en fonction de si les champs sont tous remplis ou pas.
-
-à revoir pour le support:
--mettre à jour le portfolio
--inclure le tableau avec les compétences
-
 """
