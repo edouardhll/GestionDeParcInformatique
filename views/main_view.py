@@ -1,3 +1,4 @@
+import platform
 import tkinter as tk
 from tkinter import *
 from tkinter import ttk
@@ -33,9 +34,10 @@ def lancer_app():
     root.title("Gestionnaire de parc informatique") #le nom affiché de la fenêtre
     root.geometry("1280x720") #donne une taille à la fenêtre quand elle s'ouvre
     root.minsize(1280, 720) #donne une taille minimal à la fenêtre ne pouvant pas être réduite
-    root.iconbitmap("./assets/logo.ico") #donne un logo à l'app
+    if platform.system() == "Windows":
+        root.iconbitmap("./assets/logo.ico")
+    #root.iconbitmap("./assets/logo.ico") #donne un logo à l'app
     root.config(background=bgc) #couleur de l'arrière plan de la fenêtre
-
 
 
     #----------Création du cadre ACCUEIL ----------#
