@@ -1,0 +1,25 @@
+CREATE DATABASE gestiondeparcinformatique;
+USE gestiondeparcinformatique;
+
+CREATE TABLE `equipements` (
+    `ID` INT(11) NOT NULL AUTO_INCREMENT,
+    `type` VARCHAR(50) NOT NULL COLLATE 'utf8mb4_general_ci',
+    `marque` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+    `modele` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+    `num_serie` VARCHAR(100) NULL COLLATE 'utf8mb4_general_ci',
+    `emplacement` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+    `responsable` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+    `date_achat` DATE NULL DEFAULT NULL,
+    PRIMARY KEY (`ID`) USING BTREE,
+    UNIQUE INDEX `num_serie` (`num_serie`)
+) COLLATE='utf8mb4_general_ci' ENGINE=InnoDB;
+
+CREATE TABLE `historique_interventions` (
+    `ID` INT(11) NOT NULL AUTO_INCREMENT,
+    `equipement_ID` INT(11) NOT NULL,
+    `date` DATE NOT NULL,
+    `action` TEXT NOT NULL COLLATE 'utf8mb4_general_ci',
+    PRIMARY KEY (`ID`) USING BTREE,
+    INDEX `equipement_ID` (`equipement_ID`) USING BTREE,
+    CONSTRAINT `equipement_ID` FOREIGN KEY (`equipement_ID`) REFERENCES `equipements` (`ID`) ON UPDATE NO ACTION ON DELETE NO ACTION
+) COLLATE='utf8mb4_general_ci' ENGINE=InnoDB;
