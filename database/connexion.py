@@ -3,10 +3,12 @@ import mysql.connector as cpy #importation de la librairie mysql.connector.pytho
 def connexion():
     try:
         cnx = cpy.connect( #on créer la connexion avec toute les informations nécessaires afin de se connecter à la db
-            user='root',
+            #user='root',
+            user='admin',
             password='root',
             database='gestiondeparcinformatique',
-            host='127.0.0.1',
+            #host='127.0.0.1',
+            host='172.44.1.131',
             port='3306'
             )
         print('Connexion réussie')
