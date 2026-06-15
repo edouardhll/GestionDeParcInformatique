@@ -121,6 +121,8 @@ def entry(home, root):
     export_button.pack(side=LEFT, pady=25, padx=25)
     open_button = Button(csv_frame, text='Ouvrir le dossier', font=(h2p, 15), bg=bgc, fg=h2c, activebackground=bgc, command=openCSV)
     open_button.pack(side=RIGHT, pady=25, padx=25)
+    import_button = Button(csv_frame, text='Importer', font=(h2p, 15), bg=bgc, fg=h2c, activebackground=bgc, command=importCSV)
+    import_button.pack(side=RIGHT, pady=25, padx=25)
 
     #----------Création de la fonction pour EFFACER----------#
     def delete_tk(home):
@@ -396,3 +398,5 @@ def genererCSV():
 def openCSV():
     path = os.path.abspath('./exports')
     subprocess.Popen(f'explorer "{path}"')
+def importCSV():
+    subprocess.run(capture_output=True)
