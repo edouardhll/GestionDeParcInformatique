@@ -8,7 +8,8 @@ def connexion():
             password='root',
             database='gestiondeparcinformatique',
             #host='127.0.0.1',
-            host='172.44.1.131',
+            #host='172.44.1.131',
+            host= '100.122.148.23',
             port='3306'
             )
         print('Connexion réussie')
