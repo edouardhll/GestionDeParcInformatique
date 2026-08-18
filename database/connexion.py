@@ -12,8 +12,8 @@ def connexion():
             host= '100.122.148.23',
             port='3306'
             )
-        print('Connexion réussie')
+        print('Connexion réussie !')
         return cnx
     except cpy.Error as err:
-        print("Connexion échouée: {}".format(err))
+        print("/!\ Connexion échouée /!\ : {}".format(err))
         return None
